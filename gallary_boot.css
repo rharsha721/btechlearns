@@ -1,0 +1,21 @@
+.jumbotron{
+    margin-top: 100px !important ;
+    background: red;
+    color: white;
+    text-align: center;
+}
+.navbar{
+    background: green;
+    color: white;
+}
+.navbar a{
+    color: white !important;
+}
+.row div{
+    margin-top: 50px;
+}
+.fixed-top{
+    margin-left: 70px !important;
+    
+    margin-right: 70px !important;
+}
