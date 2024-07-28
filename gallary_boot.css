@@ -19,3 +19,8 @@
     
     margin-right: 70px !important;
 }
+body{
+    background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIiv3ndgZmydsAbDeTD5Y2ddp4KJVFwGe2GA&s");
+    background-size: cover;
+
+}
