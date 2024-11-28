@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BtechLearns Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="gallary_boot.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background-color: #f4f4f9;
+        }
+        
+        .quiz-section {
+            padding-top: 80px;
+            text-align: center;
+        }
+        .quiz-box {
+            display: inline-block;
+            width: 250px;
+            height: 250px;
+            margin: 20px;
+            background-color: #4e73df;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 250px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .quiz-box:hover {
+            background-color: #2e59d9;
+        }
+        .quiz-btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .quiz-btn:hover {
+            background-color: #2e59d9;
+        }
+        #quizContainer {
+            display: none;
+            padding-top: 100px;
+        }
+        .question-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .question-container h4 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .options button {
+            margin: 10px 0;
+            padding: 12px 20px;
+            width: 100%;
+            font-size: 18px;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .options button:hover {
+            background-color: #218838;
+        }
+        .feedback-container {
+            text-align: center;
+            display: none;
+        }
+        .feedback-container h3 {
+            font-size: 30px;
+            color: #333;
+        }
+        .feedback-container h4 {
+            font-size: 20px;
+            color: #777;
+        }
+        .feedback-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background: darkmagenta !important;" >
+            <a class="navbar-brand" href="https://www.youtube.com/@BtechLearns" target="_blank"><img src="youtube.png" alt="" width="25" height="25"> Btech Learns</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="course.html">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallary.html">Gallary</a>
+                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="quiz.html">Quiz</a>
+                    </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About us</a>
+                    </li>
+            </ul>
+        </nav>
+
+        <!-- Quiz Selection Section -->
+        <div class="quiz-section">
+            <h2>Harsha's funny Quiz game</h2>
+            <div class="d-flex justify-content-center flex-wrap">
+                <div class="quiz-box" onclick="startQuiz('python')">Start Python Quiz</div>
+                <div class="quiz-box" onclick="startQuiz('java')">Start Java Quiz</div>
+                <div class="quiz-box" onclick="startQuiz('html')">Start HTML Quiz</div>
+                <div class="quiz-box" onclick="startQuiz('css')">Start CSS Quiz</div>
+                <div class="quiz-box" onclick="startQuiz('c')">Start C Quiz</div>
+            </div>
+        </div>
+
+        <!-- Quiz Container (Initially Hidden) -->
+        <div id="quizContainer">
+            <div class="question-container" id="questionContainer">
+                <h4 id="questionText"></h4>
+                <div class="options" id="options"></div>
+                <div class="navigation">
+                    <button id="prevBtn" class="btn btn-primary" onclick="prevQuestion()" style="display:none;">Previous</button>
+                    <button id="nextBtn" class="btn btn-primary" onclick="nextQuestion()">Next</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+    <script>
+        let currentQuestion = 0;
+        let quizData = [];
+      
+        // Example quiz questions for each topic (10 questions per quiz)
+        const pythonQuiz = [
+            { question: "What is the output of print(2 + 2)?", options: ["4", "5", "3", "6"], correct: 0 },
+            { question: "Which keyword is used to define a function in Python?", options: ["function", "def", "define", "func"], correct: 1 },
+            { question: "What is the correct extension for Python files?", options: [".python", ".pt", ".py", ".pyc"], correct: 2 },
+            { question: "What function is used to get the length of a list?", options: ["len()", "length()", "size()", "count()"], correct: 0 },
+            { question: "Which data type is used for decimal values?", options: ["int", "float", "str", "bool"], correct: 1 },
+            { question: "What is the correct syntax to print a string in Python?", options: ["print('Hello')", "print[Hello]", "echo('Hello')", "println('Hello')"], correct: 0 },
+            { question: "What is the value of 10 // 3?", options: ["3.0", "3", "4", "2"], correct: 1 },
+            { question: "Which of the following is not a built-in data type in Python?", options: ["list", "tuple", "map", "set"], correct: 2 },
+            { question: "What does the 'continue' statement do?", options: ["Exits the loop", "Skips the rest of the code inside the loop", "Starts a new loop", "None of the above"], correct: 1 },
+            { question: "Which of the following methods is used to remove the last item from a list?", options: [".remove()", ".pop()", ".del()", ".clear()"], correct: 1 }
+        ];
+
+        const javaQuiz = [
+            { question: "What is the keyword used to define a class in Java?", options: ["class", "define", "classify", "new"], correct: 0 },
+            { question: "Which method is used to start the execution of a Java program?", options: ["start()", "run()", "main()", "execute()"], correct: 2 },
+            { question: "Which of the following is not a valid access modifier in Java?", options: ["public", "private", "protected", "hidden"], correct: 3 },
+            { question: "What is the default value of a boolean variable?", options: ["true", "false", "null", "undefined"], correct: 1 },
+            { question: "Which of these is the correct way to declare an array in Java?", options: ["int[] arr", "int arr[]", "array int", "None of the above"], correct: 1 },
+            { question: "Which of these keywords is used for exception handling?", options: ["try", "catch", "throw", "All of the above"], correct: 3 },
+            { question: "Which package is automatically imported in Java?", options: ["java.util", "java.lang", "java.io", "java.net"], correct: 1 },
+            { question: "Which loop is used when the number of iterations is known?", options: ["while", "do-while", "for", "None of the above"], correct: 2 },
+            { question: "What is the output of 10 % 3 in Java?", options: ["1", "3", "0", "2"], correct: 3 },
+            { question: "Which of the following is used to handle errors in Java?", options: ["try-catch", "error-catch", "catch-except", "None"], correct: 0 }
+        ];
+
+        const htmlQuiz = [
+    { question: "What does HTML stand for?", options: ["HyperText Markup Language", "Hyperlinks and Text Markup Language", "Home Tool Markup Language", "HyperText Making Language"], correct: 0 },
+    { question: "Which tag is used to display text on a webpage?", options: ["&lt;h1&gt;", "&lt;p&gt;", "&lt;img&gt;", "&lt;link&gt;"], correct: 1 },
+    { question: "Which of these tags is used for a header?", options: ["&lt;header&gt;", "&lt;head&gt;", "&lt;h1&gt;", "&lt;title&gt;"], correct: 2 },
+    { question: "What does the <br> tag do?", options: ["Creates a new line", "Bold text", "Creates a table", "Adds a hyperlink"], correct: 0 },
+    { question: "Which tag is used to create a list in HTML?", options: ["&lt;ul&gt;", "&lt;li&gt;", "&lt;list&gt;", "&lt;ol&gt;"], correct: 0 },
+    { question: "What is the correct tag for a hyperlink?", options: ["&lt;a&gt;", "&lt;link&gt;", "&lt;href&gt;", "&lt;url&gt;"], correct: 0 },
+    { question: "Which tag is used for an image?", options: ["&lt;img&gt;", "&lt;image&gt;", "&lt;src&gt;", "&lt;picture&gt;"], correct: 0 },
+    { question: "What does the <p> tag do?", options: ["It defines a paragraph", "It adds a picture", "It defines a header", "It creates a hyperlink"], correct: 0 },
+    { question: "Which attribute is used to add a link to an image?", options: ["src", "href", "link", "url"], correct: 0 },
+    { question: "Which of these is a valid HTML5 element?", options: ["&lt;canvas&gt;", "&lt;frame&gt;", "&lt;iframe&gt;", "&lt;menu&gt;"], correct: 0 }
+];
+
+
+
+        const cssQuiz = [
+            { question: "Which property is used to change the background color in CSS?", options: ["color", "bgcolor", "background-color", "bg"], correct: 2 },
+            { question: "Which CSS property controls the text size?", options: ["font-size", "text-size", "font", "text-font"], correct: 0 },
+            { question: "Which property is used to change the font in CSS?", options: ["font-style", "font-family", "font-weight", "font-size"], correct: 1 },
+            { question: "How do you center a div in CSS?", options: ["margin: auto;", "text-align: center;", "display: flex;", "center: true;"], correct: 0 },
+            { question: "Which property is used to set the margin in CSS?", options: ["margin", "padding", "border", "spacing"], correct: 0 },
+            { question: "Which CSS selector is used to target an id?", options: [".id", "#id", "id", ".target"], correct: 1 },
+            { question: "Which property is used to add shadow in CSS?", options: ["text-shadow", "box-shadow", "shadow", "shadow-text"], correct: 1 },
+            { question: "What is the default value of the position property in CSS?", options: ["relative", "absolute", "static", "fixed"], correct: 2 },
+            { question: "Which of these is not a valid CSS unit?", options: ["px", "%", "em", "dp"], correct: 3 },
+            { question: "Which CSS property is used to set the font color?", options: ["font-color", "color", "text-color", "font-style"], correct: 1 }
+        ];
+
+        const cQuiz = [
+            { question: "Which function is used to print output in C?", options: ["printf()", "cout", "output()", "echo()"], correct: 0 },
+            { question: "Which of these is the correct way to declare a pointer in C?", options: ["int *ptr", "int ptr*", "pointer ptr", "ptr: int"], correct: 0 },
+            
+            { question: "What is the correct syntax to declare a constant in C?", options: ["const int x;", "#define x", "constant int x;", "define int x;"], correct: 0 },
+            { question: "Which of the following is not a valid data type in C?", options: ["int", "float", "double", "text"], correct: 3 },
+            { question: "Which function is used to read input in C?", options: ["scan()", "read()", "scanf()", "input()"], correct: 2 },
+            { question: "Which keyword is used to define a function in C?", options: ["function", "def", "void", "func"], correct: 2 },
+            { question: "What is the result of 5 / 2 in C?", options: ["2", "2.5", "5", "3"], correct: 0 },
+            { question: "Which operator is used for equality comparison in C?", options: ["=", "==", "!", "#"], correct: 1 },
+            { question: "What does the break statement do in C?", options: ["Exit the loop", "Continue to the next iteration", "Break the program", "None of the above"], correct: 0 }
+        ];
+
+        function startQuiz(topic) {
+            switch (topic) {
+                case 'python':
+                    quizData = pythonQuiz;
+                    break;
+                case 'java':
+                    quizData = javaQuiz;
+                    break;
+                case 'html':
+                    quizData = htmlQuiz;
+                    break;
+                case 'css':
+                    quizData = cssQuiz;
+                    break;
+                case 'c':
+                    quizData = cQuiz;
+                    break;
+            }
+            currentQuestion = 0;
+            score = 0;
+            answers = [];
+            document.getElementById('quizContainer').style.display = 'block';
+            document.querySelector('.quiz-section').style.display = 'none';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            let question = quizData[currentQuestion];
+            document.getElementById('questionText').innerText = question.question;
+            let optionsHtml = '';
+            question.options.forEach((option, index) => {
+                optionsHtml += `<button onclick="answerQuestion(${index})">${option}</button>`;
+            });
+            document.getElementById('options').innerHTML = optionsHtml;
+
+            document.getElementById('prevBtn').style.display = currentQuestion === 0 ? 'none' : 'inline-block';
+        }
+
+        function answerQuestion(selectedOption) {
+            let question = quizData[currentQuestion];
+            answers.push({ question: question.question, selected: question.options[selectedOption], correct: question.correct });
+
+            if (selectedOption === question.correct) {
+                score++;
+            }
+            nextQuestion();
+        }
+        function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        showQuestion();
+    } else {
+        // After the last question, show the Thank You message
+        alert("Thank You for Completing the Quiz!");
+
+        // Show the corresponding quiz result based on the quizData
+        if (quizData === pythonQuiz) {
+            alert(`Python Quiz:
+1. What is the output of print(2 + 2)? Answer: 4
+2. Which keyword is used to define a function in Python? Answer: def
+3. What is the correct extension for Python files? Answer: .py
+4. What function is used to get the length of a list? Answer: len()
+5. Which data type is used for decimal values? Answer: float
+6. What is the correct syntax to print a string in Python? Answer: print('Hello')
+7. What is the value of 10 // 3? Answer: 3
+8. Which of the following is not a built-in data type in Python? Answer: map
+9. What does the 'continue' statement do? Answer: Skips the rest of the code inside the loop
+10. Which of the following methods is used to remove the last item from a list? Answer: .pop()`);
+        } else if (quizData === javaQuiz) {
+            alert(`Java Quiz:
+1. What is the keyword used to define a class in Java? Answer: class
+2. Which method is used to start the execution of a Java program? Answer: main()
+3. Which of the following is not a valid access modifier in Java? Answer: hidden
+4. What is the default value of a boolean variable? Answer: false
+5. Which of these is the correct way to declare an array in Java? Answer: int arr[]
+6. Which of these keywords is used for exception handling? Answer: All of the above
+7. Which package is automatically imported in Java? Answer: java.lang
+8. Which loop is used when the number of iterations is known? Answer: for
+9. What is the output of 10 % 3 in Java? Answer: 2
+10. Which of the following is used to handle errors in Java? Answer: try-catch`);
+        } else if (quizData === htmlQuiz) {
+            alert(`HTML Quiz:
+1. What does HTML stand for? Answer: HyperText Markup Language
+2. Which tag is used to display text on a webpage? Answer: <p>
+3. Which of these tags is used for a header? Answer: <h1>
+4. What does the <br> tag do? Answer: Creates a new line
+5. Which tag is used to create a list in HTML? Answer: <ul>
+6. What is the correct tag for a hyperlink? Answer: <a>
+7. Which tag is used for an image? Answer: <img>
+8. What does the <p> tag do? Answer: It defines a paragraph
+9. Which attribute is used to add a link to an image? Answer: src
+10. Which of these is a valid HTML5 element? Answer: <canvas>`);
+        } else if (quizData === cssQuiz) {
+            alert(`CSS Quiz:
+1. Which property is used to change the background color in CSS? Answer: background-color
+2. Which CSS property controls the text size? Answer: font-size
+3. Which property is used to change the font in CSS? Answer: font-family
+4. How do you center a div in CSS? Answer: margin: auto;
+5. Which property is used to set the margin in CSS? Answer: margin
+6. Which CSS selector is used to target an id? Answer: #id
+7. Which property is used to add shadow in CSS? Answer: box-shadow
+8. What is the default value of the position property in CSS? Answer: static
+9. Which of these is not a valid CSS unit? Answer: dp
+10. Which CSS property is used to set the font color? Answer: color`);
+        } else if (quizData === cQuiz) {
+            alert(`C Quiz:
+1. Which function is used to print output in C? Answer: printf()
+2. Which of these is the correct way to declare a pointer in C? Answer: int *ptr
+3. What is the correct syntax to declare a constant in C? Answer: const int x;
+4. Which of the following is not a valid data type in C? Answer: text
+5. Which function is used to read input in C? Answer: scanf()
+6. Which keyword is used to define a function in C? Answer: void
+7. What is the result of 5 / 2 in C? Answer: 2
+8. Which operator is used for equality comparison in C? Answer: ==
+9. What does the break statement do in C? Answer: Exit the loop`);
+        }
+
+        // Redirect to quiz.html page (if you have a page to display)
+        window.location.href = "quiz.html"; // Change to the path of your quiz page
+    }
+}
+
+
+
+
+        function prevQuestion() {
+            currentQuestion--;
+            showQuestion();
+        }
+
+        
+
+        function goBackToQuiz() {
+            document.getElementById('feedbackContainer').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
+        }
+    </script>
+
+</body>
+</html>
